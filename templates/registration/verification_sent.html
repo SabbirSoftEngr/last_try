@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="alert alert-info">
+  We've emailed you a verification link. Please check your inbox
+  {% if DEBUG %}(or see the console output in your runserver window){% endif %}.
+</div>
+
+{% if user.is_authenticated and not user.is_active %}
+  <p>
+    Didn’t receive the email?
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'resend_verification' %}">Resend verification</a>
+  </p>
+{% endif %}
+{% endblock %}

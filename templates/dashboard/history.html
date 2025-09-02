@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4 class="mb-3">Donation History</h4>
+
+<div class="row g-4">
+  <div class="col-12">
+    <div class="card shadow-sm">
+      <div class="card-header bg-light">As Donor (Pledged / Donated / Canceled)</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+        <table class="table mb-0 align-middle">
+          <thead>
+            <tr>
+              <th>Donation ID</th>
+              <th>Request ID</th>
+              <th>Recipient</th>
+              <th>Blood Group</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for d in as_donor %}
+            <tr>
+              <td>#{{ d.id }}</td>
+              <td>#{{ d.request.id }}</td>
+              <td>{{ d.request.requester.profile.full_name }}</td>
+              <td><span class="badge text-bg-danger">{{ d.request.blood_group }}</span></td>
+              <td>
+                {% if d.status == 'DONATED' %}
+                  <span class="badge text-bg-success">Donated</span>
+                {% elif d.status == 'CANCELED' %}
+                  <span class="badge text-bg-secondary">Canceled</span>
+                {% else %}
+                  <span class="badge text-bg-warning">Pledged</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if d.status == 'PLEDGED' %}
+                  <a class="btn btn-sm btn-outline-success" href="{% url 'mark_donated' d.request.id %}">Mark Donated</a>
+                  <a class="btn btn-sm btn-outline-danger" href="{% url 'cancel_request' d.request.id %}">Cancel</a>
+                {% else %}-{% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6" class="text-center text-muted">No donations yet.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card shadow-sm">
+      <div class="card-header bg-light">As Recipient (Open / Accepted / Canceled / Completed)</div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+        <table class="table mb-0 align-middle">
+          <thead>
+            <tr>
+              <th>Request ID</th>
+              <th>Blood Group</th>
+              <th>Status</th>
+              <th>Donor</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for r in as_recipient %}
+            <tr>
+              <td>#{{ r.id }}</td>
+              <td><span class="badge text-bg-danger">{{ r.blood_group }}</span></td>
+              <td>{{ r.get_status_display }}</td>
+              <td>{% if r.donation %}{{ r.donation.donor.profile.full_name }}{% else %}-{% endif %}</td>
+              <td>
+                {% if r.status == 'OPEN' or r.status == 'ACCEPTED' %}
+                  <a class="btn btn-sm btn-outline-danger" href="{% url 'cancel_request' r.id %}">Cancel</a>
+                {% else %}-{% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5" class="text-center text-muted">No requests yet.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

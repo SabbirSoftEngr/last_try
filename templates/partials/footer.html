@@ -1,0 +1,45 @@
+<footer class="mt-auto bg-danger text-white pt-4 pb-3 border-top border-light">
+  <div class="container">
+    <div class="row g-3 align-items-center">
+      <div class="col-md-6">
+        <h6 class="mb-1">Blood Bank</h6>
+        <small class="text-white d-block">
+          Connecting donors and recipients for a safer, faster blood donation experience.
+        </small>
+        <small class="text-white">
+          © {{ now|date:"Y" }} Blood Bank. All rights reserved.
+        </small>
+      </div>
+
+      <div class="col-md-6">
+        <div class="d-flex gap-3 justify-content-md-end justify-content-start">
+          <!-- Social links (edit your URLs) -->
+          <a class="text-light text-decoration-none" href="https://facebook.com/yourpage" target="_blank" rel="noopener" aria-label="Facebook">
+            <i class="bi bi-facebook fs-4"></i>
+          </a>
+          <a class="text-light text-decoration-none" href="https://twitter.com/yourhandle" target="_blank" rel="noopener" aria-label="X/Twitter">
+            <i class="bi bi-twitter-x fs-4"></i>
+          </a>
+          <a class="text-light text-decoration-none" href="https://www.instagram.com/yourhandle" target="_blank" rel="noopener" aria-label="Instagram">
+            <i class="bi bi-instagram fs-4"></i>
+          </a>
+          <a class="text-light text-decoration-none" href="https://www.linkedin.com/company/yourcompany" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="bi bi-linkedin fs-4"></i>
+          </a>
+          <a class="text-light text-decoration-none" href="mailto:contact@bloodbank.local" aria-label="Email">
+            <i class="bi bi-envelope fs-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="border-secondary my-3">
+    <div class="d-flex flex-wrap gap-3 small">
+      <a class="link-light link-underline-opacity-0" href="{% url 'about' %}">About</a>
+      <a class="link-light link-underline-opacity-0" href="{% url 'privacy' %}">Privacy</a>
+      <a class="link-light link-underline-opacity-0" href="{% url 'terms' %}">Terms</a>
+      <a class="link-light link-underline-opacity-0" href="{% url 'contact' %}">Contact</a>
+    </div>
+
+  </div>
+</footer>
