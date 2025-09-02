@@ -1,13 +1,14 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv, find_dotenv
+import dj_database_url   # 👈 add this
 
 # -------------------------------------------------
 # Paths & Environment
 # -------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load .env file from project root (auto-detect)
+# Load .env file
 env_path = find_dotenv()
 if env_path:
     load_dotenv(env_path)
@@ -67,13 +68,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'bloodbank.wsgi.application'
 
 # -------------------------------------------------
-# Database
+# Database (Postgres on Render)
 # -------------------------------------------------
+# Render automatically gives DATABASE_URL
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL"),  # from Render env
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 # -------------------------------------------------
@@ -110,7 +113,7 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 # -------------------------------------------------
-# Email settings (from .env)
+# Email settings (from .env / Render secrets)
 # -------------------------------------------------
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
